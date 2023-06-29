@@ -80,10 +80,8 @@ public class ServerListEntryNormalMixin {
                 } catch (TimeoutException e1) {
                     setServerFail(EnumChatFormatting.RED + "Timed out");
                 } catch (ExecutionException e2) {
-                    if (e2.getCause() instanceof UnknownHostException) {
+                    if (e2.getCause() instanceof UnknownHostException)
                         setServerFail(EnumChatFormatting.DARK_RED + "Can't resolve hostname");
-                        setServerFail(EnumChatFormatting.GRAY + "Spamming...");
-                    }
                     else
                         setServerFail(EnumChatFormatting.DARK_RED + "Can't connect to server.");
 
