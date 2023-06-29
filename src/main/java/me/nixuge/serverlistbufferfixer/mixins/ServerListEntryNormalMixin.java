@@ -30,6 +30,10 @@ public class ServerListEntryNormalMixin {
 
     @Shadow
     private static ThreadPoolExecutor field_148302_b;
+
+    private static final int MAX_THREAD_COUNT_PINGER = 50;
+    private static final int MAX_THREAD_COUNT_TIMEOUT = 100;
+
     // Note: if servers are added, this will be inaccurate
     // But it should be good enough still
     // Can't bother to mixin onto some other classes just to change that (rn at least).
@@ -37,9 +41,9 @@ public class ServerListEntryNormalMixin {
     static {
         serverCountCache = new ServerList(Minecraft.getMinecraft()).countServers();
         // Note: not even sure this reassignement works since the field is final
-        field_148302_b = new ScheduledThreadPoolExecutor(serverCountCache + 5, (new ThreadFactoryBuilder()).setNameFormat("Server Pinger #%d").setDaemon(true).build());
+        field_148302_b = new ScheduledThreadPoolExecutor(Math.min(serverCountCache + 5, MAX_THREAD_COUNT_PINGER), (new ThreadFactoryBuilder()).setNameFormat("Server Pinger #%d").setDaemon(true).build());
     }
-    private final ScheduledExecutorService timeoutExecutor = Executors.newScheduledThreadPool(serverCountCache * 2 + 5);
+    private final ScheduledExecutorService timeoutExecutor = Executors.newScheduledThreadPool(Math.min(serverCountCache + 5, MAX_THREAD_COUNT_TIMEOUT));
 
     private static int runningTaskCount = 0;
 
