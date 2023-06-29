@@ -1,0 +1,10 @@
+{
+  "compatibilityLevel": "JAVA_8",
+  "package": "me.nixuge.serverlistbufferfixer.mixins",
+  "refmap": "refmap.serverlistbufferfixer.json",
+  "mixins": [],
+  "client": [
+    "ServerListEntryNormalMixin"
+  ],
+  "server": []
+}
