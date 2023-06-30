@@ -27,3 +27,8 @@ This is now changed to `serverCount + 5`, which is eg if you have 21 servers is 
 This is made by adding another `ScheduledThreadPoolExecutor`, and then adding ping tasks to it using `final Future<?> future = timeoutExecutor.submit(getPingTask());`
 
 The `field_148302_b.submit(...)` (pinger) vanilla calls are then replaced with ones that call `future.get(timeout)` instead of the ping task directly, causing the pinger to not get overloaded and to properly fail on timeouts after by default 4 seconds (which you can change in the config).
+
+# Port to newer versions
+I currently only have plans to port up to 1.12 (Forge obviously), if possible using ReplayMod's preprocessor to keep a single codebase. I didn't look at 1.12's code yet, but knowing mojang I doubt they changed the class I mixin into to a point it'd need a serious rewrite.
+
+Once that's done, i'll (maybe) consider newer versions, and if I do i'll probably support as much versions as possible
