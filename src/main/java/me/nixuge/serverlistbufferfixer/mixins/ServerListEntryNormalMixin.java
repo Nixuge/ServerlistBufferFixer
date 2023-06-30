@@ -2,6 +2,8 @@ package me.nixuge.serverlistbufferfixer.mixins;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.SneakyThrows;
+import me.nixuge.serverlistbufferfixer.McMod;
+import me.nixuge.serverlistbufferfixer.config.ConfigCache;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.multiplayer.ServerData;
@@ -31,8 +33,11 @@ public class ServerListEntryNormalMixin {
     @Shadow
     private static ThreadPoolExecutor field_148302_b;
 
-    private static final int MAX_THREAD_COUNT_PINGER = 50;
-    private static final int MAX_THREAD_COUNT_TIMEOUT = 100;
+    // still callign mcMod.getinstance.getconfigcache just in case
+    private static final int MAX_THREAD_COUNT_PINGER = McMod.getInstance().getConfigCache().getMaxThreadCountPinger();
+    private static final int MAX_THREAD_COUNT_TIMEOUT = McMod.getInstance().getConfigCache().getMaxThreadCountTimeout();
+
+    private static final ConfigCache config = McMod.getInstance().getConfigCache();
 
     // Note: if servers are added, this will be inaccurate
     // But it should be good enough still
@@ -80,7 +85,7 @@ public class ServerListEntryNormalMixin {
         return field_148302_b.submit(new Runnable() {
             public void run() {
                 try {
-                    future.get(4, TimeUnit.SECONDS);
+                    future.get(config.getServerTimeout(), TimeUnit.SECONDS);
                 } catch (TimeoutException e1) {
                     setServerFail(EnumChatFormatting.RED + "Timed out");
                 } catch (ExecutionException e2) {
