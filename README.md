@@ -5,6 +5,9 @@ Also prevents you from spamming "refresh" too much.
 
 ### Note that this "behavior" *(read bug)* is still present as of the latest versions (1.20.1 currently).
 
+
+## [Alternative for newer inferior versions (1.20)](https://modrinth.com/mod/serverpingerfixer)
+
 # Technical explanation of what this mod does
 This mod does 3 things to fix up that mess of a server pinger, all of which are in the `ServerListEntryNormal`
 
